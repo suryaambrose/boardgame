@@ -76,12 +76,16 @@ class GameModel(object):
 		self._player_list.append(player)
 
 	@classmethod
-	def getNextPlayer(self, player):
+	def getNextPlayer(self, player=None):
 		"""
-		Return the player who will play after the given player.
+		Return the player who will play after the given player. If player is
+		None, first player is returned.
 
 		@player  :  Original player (Player)
 		@return  :  Next player (Player)
+
 		"""
+		if player is None:
+			return self._player_list[0]
 		next_player_index = (self._player_list.index(player) + 1) %len(self._player_list)
 		return self._player_list[next_player_index]
