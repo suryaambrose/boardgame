@@ -72,7 +72,7 @@ class GameModel(object):
 		@raises  :  RuntimeError if max number of player is already reached
 		"""
 		if len(self._player_list)>=self.max_num_of_players:
-			raise RuntimeError()
+			raise RuntimeError("Maximum number of player is reached")
 		self._player_list.append(player)
 
 	@classmethod
@@ -85,6 +85,8 @@ class GameModel(object):
 		@return  :  Next player (Player)
 
 		"""
+		if len(self._player_list)<self.min_num_of_players:
+			raise RuntimeError("Minimum number of player is not reached")
 		if player is None:
 			return self._player_list[0]
 		next_player_index = (self._player_list.index(player) + 1) %len(self._player_list)
