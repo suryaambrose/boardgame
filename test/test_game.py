@@ -6,63 +6,59 @@ from boardgame.player import Player
 class GameModelTest(unittest.TestCase):
 
 	def setUp(self):
-		GameModel.min_num_of_players = -1
-		GameModel.max_num_of_players = -1
-		GameModel._player_list = []
+		self.game_model = GameModel(GameState, 1, 0)
 
 	def testRaiseNotImplemented(self):
 		state = GameState()
 		with self.assertRaises(NotImplementedError):
-			GameModel.getPossibleMoves(state)
+			self.game_model.getPossibleMoves(state)
 
 		with self.assertRaises(NotImplementedError):
-			GameModel.estimateNextState(state, None)
+			self.game_model.estimateNextState(state, None)
 
 	def testPlayerAddition(self):
 		player = Player("test")
-		GameModel.max_num_of_players = 0
+		self.game_model.max_num_of_players = 0
 		with self.assertRaises(RuntimeError):
-			GameModel.addPlayer(player)
+			self.game_model.addPlayer(player)
 
-		GameModel.max_num_of_players = 2
-		GameModel.addPlayer(player)
-		GameModel.addPlayer(player)
+		self.game_model.max_num_of_players = 2
+		self.game_model.addPlayer(player)
+		self.game_model.addPlayer(player)
 		with self.assertRaises(RuntimeError):
-			GameModel.addPlayer(player)
+			self.game_model.addPlayer(player)
 
 	def testGetFirstPlayer(self):
-		GameModel.max_num_of_players = 5
-		GameModel.min_num_of_players = 2
+		self.game_model.max_num_of_players = 5
+		self.game_model.min_num_of_players = 2
 		player = Player("test")
-		GameModel.addPlayer(player)
+		self.game_model.addPlayer(player)
 		with self.assertRaises(RuntimeError):
-			GameModel.getNextPlayer()
-		GameModel.addPlayer(player)
-		GameModel.getNextPlayer()
+			self.game_model.getNextPlayer()
+		self.game_model.addPlayer(player)
+		self.game_model.getNextPlayer()
 
 	def testGetNextPlayer(self):
-		GameModel.max_num_of_players = 5
-		GameModel.min_num_of_players = 1
-		GameModel.addPlayer(Player("one"))
-		GameModel.addPlayer(Player("two"))
-		GameModel.addPlayer(Player("three"))
-		GameModel.addPlayer(Player("four"))
-		GameModel.addPlayer(Player("five"))
+		self.game_model.max_num_of_players = 5
+		self.game_model.min_num_of_players = 1
+		self.game_model.addPlayer(Player("one"))
+		self.game_model.addPlayer(Player("two"))
+		self.game_model.addPlayer(Player("three"))
+		self.game_model.addPlayer(Player("four"))
+		self.game_model.addPlayer(Player("five"))
 
-		p = GameModel.getNextPlayer()
+		p = self.game_model.getNextPlayer()
 		assert(p.name == "one")
-		p = GameModel.getNextPlayer(p)
+		p = self.game_model.getNextPlayer(p)
 		assert(p.name == "two")
-		p = GameModel.getNextPlayer(p)
+		p = self.game_model.getNextPlayer(p)
 		assert(p.name == "three")
-		p = GameModel.getNextPlayer(p)
+		p = self.game_model.getNextPlayer(p)
 		assert(p.name == "four")
-		p = GameModel.getNextPlayer(p)
+		p = self.game_model.getNextPlayer(p)
 		assert(p.name == "five")
-		p = GameModel.getNextPlayer(p)
+		p = self.game_model.getNextPlayer(p)
 		assert(p.name == "one")
-
-
 
 class GameStateTest(unittest.TestCase):
 

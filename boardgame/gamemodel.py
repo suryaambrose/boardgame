@@ -7,6 +7,7 @@ class GameState(object):
 	only two functions must be overridden `isFinal` and `isTie`, the
 	rest being left to the user's discretion.
 	"""
+	next_player = None
 
 	def isFinal(self):
 		"""
@@ -32,9 +33,19 @@ class GameModel(object):
 	It is also important to define `min_num_of_players` and `max_num_of_players`
 	which are class variables.
 	"""
-	_player_list = []
-	min_num_of_players = -1
-	max_num_of_players = -1
+
+	def __init__(self, state, players_min_num, players_max_num):
+		"""
+		Create GameModel
+
+		@state           : Initial state (GameState)
+		@players_min_num : Minimum number of player required (int)
+		@players_max_num : Maximum number of player required (int)
+		"""
+		self._state = state
+		self._player_list = []
+		self.min_num_of_players = players_min_num
+		self.max_num_of_players = players_max_num
 
 	@staticmethod
 	def getPossibleMoves(state):
@@ -46,8 +57,7 @@ class GameModel(object):
 		"""
 		raise NotImplementedError()
 
-	@staticmethod
-	def estimateNextState(state, move):
+	def estimateNextState(self, state, move):
 		"""
 		Estimate what the game state will be after the given move
 		is applied to the given state.
@@ -55,15 +65,27 @@ class GameModel(object):
 		@state  :  Original game state (GameState)
 		@move   :  Move to play
 		@return :  New state (GameState)
+		@raises :  RuntimeError if move is not possible
 
 		..warning::
-			This function must not change the actual state of the game.
-			Its only purpose is to estimate what the game board will be,
-			not to actually change it.
+			This function does not change the actual state of the game.
+			Its only purpose is to estimate what the game board would be if the
+			move was applied, not to actually change it.
 		"""
 		raise NotImplementedError()
 
-	@classmethod
+	def applyMove(self, move):
+		"""
+		Apply the given move to the current state
+
+		@move   :  Move to play
+		@raises :  RuntimeError if move is not possible
+
+		..note::
+			This function changes the actual state of the game.
+		"""
+		self._state = self.estimateNextState(self._state, move)
+
 	def addPlayer(self, player):
 		"""
 		Add a player to the game
@@ -75,7 +97,6 @@ class GameModel(object):
 			raise RuntimeError("Maximum number of player is reached")
 		self._player_list.append(player)
 
-	@classmethod
 	def getNextPlayer(self, player=None):
 		"""
 		Return the player who will play after the given player. If player is
