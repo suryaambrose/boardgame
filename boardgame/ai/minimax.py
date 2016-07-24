@@ -48,19 +48,20 @@ class MiniMax:
 		for possible_move in self._game.getPossibleMoves(state):
 			# TODO : get rid of json
 			key = json.dumps(possible_move)
-			possible_next_state = self._game.estimateNextState(state, possible_move)
-			move_values[key] = self._estimateGameEvolution(possible_next_state, depth+1)
+			possible_next_state = self._game.estimateNextState(state,
+			                                                    possible_move)
+			move_values[key] = self._estimateGameEvolution(possible_next_state,
+			                                                depth+1)
 			max_result = max(max_result, move_values[key][0])
 			min_result = min(min_result, move_values[key][0])
 
 		state_value = min_result if depth%2 else max_result
 		return (state_value, move_values)
 		
-	def getBestNextMove(self, player, state):
+	def getBestNextMove(self, state):
 		"""
 		Determine the best move to do.
 
-		@player : The person who moght play the returned move (Player)
 		@state  : Current state of the game (GameState)
 		@return : The best possible move
 
@@ -71,7 +72,8 @@ class MiniMax:
 		"""
 		state_estimation = self._estimateGameEvolution(state)
 
-		max_move_value = -2 # -2 so that even a -1 move can be played if there is no other choice
+		max_move_value = -2
+		# -2 so that even a -1 move can be played if there is no other choice
 		best_move = []
 		
 		for (possible_move, value) in state_estimation[1].iteritems():
