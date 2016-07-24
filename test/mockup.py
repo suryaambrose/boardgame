@@ -1,4 +1,6 @@
 from boardgame.gamemodel import GameModel, GameState
+from boardgame.gameviewer import GameViewer
+from boardgame.player import Player
 
 
 class MockUpGameModel(GameModel):
@@ -67,3 +69,11 @@ class MockUpNonFinalGameState(GameState):
 
 	def isTie(self):
 		return False
+
+class MockUpGameViewer(GameViewer):
+	def showState(self, state):
+		pass
+
+class MockUpPlayer(Player):
+	def play(self, state):
+		return 0

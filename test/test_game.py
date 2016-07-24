@@ -1,7 +1,10 @@
 import unittest
 
 from boardgame.gamemodel import GameState, GameModel
+from boardgame.gamecontroller import GameController
+from boardgame.gameviewer import GameViewer
 from boardgame.player import Player
+from mockup import *
 
 class GameModelTest(unittest.TestCase):
 
@@ -69,3 +72,22 @@ class GameStateTest(unittest.TestCase):
 
 		with self.assertRaises(NotImplementedError):
 			state.isTie()
+
+class GameControllerTest(unittest.TestCase):
+
+	def testPlayerAddition(self):
+		game_model = GameModel(GameState, 2, 3)
+		game_viewer = GameViewer([0, 0])
+		game_controller = GameController(game_model, game_viewer)
+		game_controller.addPlayer(MockUpPlayer("one"))
+		assert(game_controller._game_model._state.next_player is None)
+		game_controller.addPlayer(Player("two"))
+		assert(game_controller._game_model._state.next_player is not None)
+		assert(game_controller._game_model._state.next_player.name=="one")
+
+	def testRun(self):
+		game_model = MockUpGameModel(MockUpNonFinalGameState, 1, 1)
+		game_viewer = MockUpGameViewer([0, 0])
+		game_controller = GameController(game_model, game_viewer)
+		game_controller.addPlayer(MockUpPlayer("one"))
+		game_controller.runOnce()
