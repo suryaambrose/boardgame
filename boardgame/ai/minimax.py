@@ -1,5 +1,4 @@
 import random
-import json
 
 class MiniMax:
 	"""
@@ -32,31 +31,26 @@ class MiniMax:
 		"""
 		if state.isFinal():
 			if state.isTie():
-				return (0, dict())
+				return 0
 			#TODO: replace %2 by number of players
 			elif depth%2 == 1:
-				return (1, dict())
+				return 1
 			else:
-				return (-1, dict())
+				return -1
 
-
-		move_values = dict()
 		max_result = -1
 		min_result = 1
 
 		# Create Tree
 		for possible_move in self._game.getPossibleMoves(state):
-			# TODO : get rid of json
-			key = json.dumps(possible_move)
 			possible_next_state = self._game.estimateNextState(state,
 			                                                    possible_move)
-			move_values[key] = self._estimateGameEvolution(possible_next_state,
+			move_value = self._estimateGameEvolution(possible_next_state,
 			                                                depth+1)
-			max_result = max(max_result, move_values[key][0])
-			min_result = min(min_result, move_values[key][0])
+			max_result = max(max_result, move_value)
+			min_result = min(min_result, move_value)
 
-		state_value = min_result if depth%2 else max_result
-		return (state_value, move_values)
+		return min_result if depth%2 else max_result
 		
 	def getBestNextMove(self, state):
 		"""
@@ -70,16 +64,17 @@ class MiniMax:
 			chosen randomly.
 			The type of the returned move depends on the game model
 		"""
-		state_estimation = self._estimateGameEvolution(state)
-
-		max_move_value = -2
-		# -2 so that even a -1 move can be played if there is no other choice
+		max_result = -2
 		best_move = []
-		
-		for (possible_move, value) in state_estimation[1].iteritems():
-			if value[0] > max_move_value:
-				max_move_value = value[0]
+		# Create Tree
+		for possible_move in self._game.getPossibleMoves(state):
+			possible_next_state = self._game.estimateNextState(state,
+			                                                    possible_move)
+			move_value = self._estimateGameEvolution(possible_next_state, 1)
+			if move_value > max_result:
+				max_result = move_value
 				best_move = [possible_move]
-			elif value[0] == max_move_value:
+			elif move_value == max_result:
 				best_move.append(possible_move)
-		return json.loads(random.choice(best_move))
+
+		return random.choice(best_move)
