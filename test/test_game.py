@@ -73,6 +73,9 @@ class GameStateTest(unittest.TestCase):
 		with self.assertRaises(NotImplementedError):
 			state.isTie()
 
+		with self.assertRaises(NotImplementedError):
+			state.value
+
 class GameControllerTest(unittest.TestCase):
 
 	def testPlayerAddition(self):

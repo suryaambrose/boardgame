@@ -9,6 +9,7 @@ class GameImplementedTest(object):
 	def testStateNotRaising(self):
 		self.state.isFinal()
 		self.state.isTie()
+		self.state.value
 
 	def testModelNotRaising(self):
 		m = self.model.getPossibleMoves(self.state)

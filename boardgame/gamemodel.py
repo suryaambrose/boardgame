@@ -24,6 +24,10 @@ class GameState(object):
 		"""
 		raise NotImplementedError
 
+	@property
+	def value(self):
+		raise NotImplementedError
+
 class GameModel(object):
 	"""
 	Wraps the game behavior.
