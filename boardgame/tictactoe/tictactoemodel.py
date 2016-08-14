@@ -69,6 +69,54 @@ class TicTacToeState(GameState):
 
 		return True
 
+	@property
+	def value(self):
+		max_heuristic = 0
+		min_heuristic = 0
+		for i in range(3):
+			if self._board[i][0] in [None, self.next_player]\
+			   and self._board[i][1] in [None, self.next_player]\
+			   and self._board[i][2] in [None, self.next_player]:
+				max_heuristic += 1
+		for i in range(3):
+			if self._board[i][0] != self.next_player\
+			   and self._board[i][1] != self.next_player\
+			   and self._board[i][2] != self.next_player:
+				min_heuristic += 1
+		for j in range(3):
+			if self._board[0][j] in [None, self.next_player]\
+			   and self._board[1][j] in [None, self.next_player]\
+			   and self._board[2][j] in [None, self.next_player]:
+				max_heuristic += 1
+		for j in range(3):
+			if self._board[0][j] != self.next_player\
+			   and self._board[1][j] != self.next_player\
+			   and self._board[2][j] != self.next_player:
+				min_heuristic += 1
+
+		if self._board[0][0] in [None, self.next_player]\
+		   and self._board[1][1] in [None, self.next_player]\
+		   and self._board[2][2] in [None, self.next_player]:
+			max_heuristic += 1
+
+		if self._board[0][0] != self.next_player\
+		   and self._board[1][1] != self.next_player\
+		   and self._board[2][2] != self.next_player:
+			min_heuristic += 1
+
+		if self._board[2][0] in [None, self.next_player]\
+		   and self._board[1][1] in [None, self.next_player]\
+		   and self._board[0][2] in [None, self.next_player]:
+			max_heuristic += 1
+
+		if self._board[2][0] != self.next_player\
+		   and self._board[1][1] != self.next_player\
+		   and self._board[0][2] != self.next_player:
+			min_heuristic += 1
+
+		return max_heuristic - min_heuristic
+
+
 class TicTacToeModel(GameModel):
 	def __init__(self):
 		super(TicTacToeModel, self).__init__(TicTacToeState(), 2, 2)
