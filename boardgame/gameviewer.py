@@ -1,7 +1,11 @@
+colors = dict(red = 31, green = 32, yellow=33, blue=34)
+
+def colorize(s, color):
+	return "\033[%dm%s\033[0m"%(colors[color], s)
 
 class GameViewer(object):
 
-	symbol_list = ["x","o"]
+	symbol_list = [colorize("x", "red"), colorize("o", "yellow")]
 
 	def __init__(self, map_size):
 		"""
