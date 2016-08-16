@@ -84,6 +84,106 @@ class ConnectFourState(GameState):
 
 		return True
 
+	@property
+	def value(self):
+		max_heuristic = 0
+		min_heuristic = 0
+
+		for j in range(7):
+			for i in range(6):
+				if i+3<6:
+					h = 0
+					for k in range(0,4):
+						if self._board[i+k][j] == self.next_player:
+							h+=1
+						elif self._board[i+k][j] is None:
+							continue
+						else:
+							break
+					else:
+						max_heuristic += h
+
+					h = 0
+					for k in range(0,4):
+						if self._board[i+k][j] != self.next_player and self._board[i+k][j] is not None:
+							h+=1
+						elif self._board[i+k][j] is None:
+							continue
+						else:
+							break
+					else:
+						min_heuristic += h
+				if j+3<7:
+					h = 0
+					for k in range(0,4):
+						if self._board[i][j+k] == self.next_player:
+							h+=1
+						elif self._board[i][j+k] is None:
+							continue
+						else:
+							break
+					else:
+						max_heuristic += h
+
+					h = 0
+					for k in range(0,4):
+						if self._board[i][j+k] != self.next_player and self._board[i][j+k] is not None:
+							h+=1
+						elif self._board[i][j+k] is None:
+							continue
+						else:
+							break
+					else:
+						min_heuristic += h
+
+				if i+3<6 and j+3<7:
+					h = 0
+					for k in range(0,4):
+						if self._board[i+k][j+k] == self.next_player:
+							h+=1
+						elif self._board[i+k][j+k] is None:
+							continue
+						else:
+							break
+					else:
+						max_heuristic += h
+
+					h = 0
+					for k in range(0,4):
+						if self._board[i+k][j+k] != self.next_player and self._board[i+k][j+k] is not None:
+							h+=1
+						elif self._board[i+k][j+k] is None:
+							continue
+						else:
+							break
+					else:
+						min_heuristic += h
+
+				if i+3<6 and j-3>=0:
+					h = 0
+					for k in range(0,4):
+						if self._board[i+k][j-k] == self.next_player:
+							h+=1
+						elif self._board[i+k][j-k] is None:
+							continue
+						else:
+							break
+					else:
+						max_heuristic += h
+
+					h = 0
+					for k in range(0,4):
+						if self._board[i+k][j-k] != self.next_player and self._board[i+k][j-k] is not None:
+							h+=1
+						elif self._board[i+k][j-k] is None:
+							continue
+						else:
+							break
+					else:
+						min_heuristic += h
+
+		return max_heuristic - min_heuristic
+
 class ConnectFourModel(GameModel):
 	def __init__(self):
 		super(ConnectFourModel, self).__init__(ConnectFourState(), 2, 2)
