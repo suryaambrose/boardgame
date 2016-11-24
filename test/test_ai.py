@@ -5,7 +5,14 @@ from boardgame.player import AiPlayer
 
 from mockup import MockUpNonFinalGameState, MockUpGameModel
 
-class MiniMaxTest(unittest.TestCase):
+class AIImplementationTest(object):
+
+	def testAIRunning(self):
+		state = MockUpNonFinalGameState()
+		res = self.algo.getBestNextMove(state)
+		assert(res in MockUpGameModel.getPossibleMoves(state))
+
+class MiniMaxTest(AIImplementationTest, unittest.TestCase):
 	def setUp(self):
 		self.algo = MiniMax(MockUpGameModel)
 
@@ -25,6 +32,14 @@ class MiniMaxTest(unittest.TestCase):
 		state.depth = 3
 		res = self.algo.getBestNextMove(state)
 		assert(res in [1,2])
+
+class RandomChoiceTest(AIImplementationTest, unittest.TestCase):
+	def setUp(self):
+		self.algo = RandomChoice(MockUpGameModel)
+
+class LimitedMiniMaxTest(AIImplementationTest, unittest.TestCase):
+	def setUp(self):
+		self.algo = LimitedMiniMax(MockUpGameModel)
 
 class AiPlayerTest(unittest.TestCase):
 	def setUp(self):
