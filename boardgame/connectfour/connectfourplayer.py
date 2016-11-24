@@ -1,5 +1,4 @@
-from ..player import HumanPlayer
-from ..ai.player import AiPlayer
+from ..player import HumanPlayer, AiPlayer
 from ..ai.randomchoice import RandomChoice
 from ..ai.limited_minimax import LimitedMiniMax
 
@@ -21,4 +20,4 @@ class ConnectFourHumanPlayer(HumanPlayer):
 class ConnectFourAiPlayer(AiPlayer):
 	def __init__(self, game_model):
 		algo = LimitedMiniMax(game_model)
-		super(ConnectFourAiPlayer, self).__init__(algo)
+		super(ConnectFourAiPlayer, self).__init__("AI", algo)

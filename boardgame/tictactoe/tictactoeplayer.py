@@ -1,7 +1,5 @@
-from ..player import HumanPlayer
-from ..ai.player import AiPlayer
+from ..player import HumanPlayer, AiPlayer
 from ..ai.minimax import MiniMax
-from ..ai.limited_minimax import LimitedMiniMax
 
 class TicTacToeHumanPlayer(HumanPlayer):
 	def __init__(self, viewer):
@@ -23,5 +21,5 @@ class TicTacToeHumanPlayer(HumanPlayer):
 
 class TicTacToeAiPlayer(AiPlayer):
 	def __init__(self, game_model):
-		algo = LimitedMiniMax(game_model, 2)
-		super(TicTacToeAiPlayer, self).__init__(algo)
+		algo = MiniMax(game_model)
+		super(TicTacToeAiPlayer, self).__init__("AI",algo)

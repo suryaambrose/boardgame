@@ -1,7 +1,7 @@
 import unittest
 
 from boardgame.ai import *
-from boardgame.ai.player import AiPlayer
+from boardgame.player import AiPlayer
 
 from mockup import MockUpNonFinalGameState, MockUpGameModel
 
@@ -29,7 +29,7 @@ class MiniMaxTest(unittest.TestCase):
 class AiPlayerTest(unittest.TestCase):
 	def setUp(self):
 		algo = minimax.MiniMax(MockUpGameModel)
-		self.player = AiPlayer(algo)
+		self.player = AiPlayer("Ai_1",algo)
 
 	def testCreate(self):
 		assert(True) # Just make sure player creation is ok

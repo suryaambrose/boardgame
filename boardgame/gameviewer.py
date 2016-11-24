@@ -11,7 +11,7 @@ class GameViewer(object):
 		"""
 		Create a game displayer
 
-		@map_size      : size of the map to display ([h,w])
+		:param map_size: size of the map to display ([h,w])
 		"""
 		self.map_height = map_size[0]
 		self.map_width = map_size[1]
@@ -21,7 +21,7 @@ class GameViewer(object):
 		"""
 		Create a symbol map to represent all players
 
-		@players_list  : list of players
+		:param players_list: list of players
 		"""
 		for i in range(len(players_list)):
 			self.symbol_map[players_list[i]] = self.symbol_list[i]
@@ -30,6 +30,6 @@ class GameViewer(object):
 		"""
 		Display the current state of the game
 
-		@state : Current state game (GameState)
+		:param state: Current state game (GameState)
 		"""
 		raise NotImplementedError()
