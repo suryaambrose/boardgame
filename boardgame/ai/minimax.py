@@ -29,8 +29,8 @@ class MiniMax:
 		:param state: Current state of the game
 		:param depth: Number of iterations already done
 		"""
-		if state.isFinal():
-			if state.isTie():
+		if self._game.isFinal(state):
+			if self._game.isTie(state):
 				return 0
 			#TODO: replace %2 by number of players
 			elif depth%2 == 1:

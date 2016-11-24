@@ -6,8 +6,8 @@ from boardgame.player import Player
 class MockUpGameModel(GameModel):
 	"""Fake GameModel for test purposes"""
 
-	@staticmethod
-	def getPossibleMoves(state):
+	@classmethod
+	def getPossibleMoves(self, state):
 		if state.depth >= 2:
 			return range(3)
 		elif state.depth == 1:
@@ -34,17 +34,31 @@ class MockUpGameModel(GameModel):
 			elif move == 1:
 				return MockUpTieGameState()
 
+	@staticmethod
+	def isFinal(state):
+		if isinstance(state, MockUpNonFinalGameState):
+			return False
+		else:
+			return True
+
+	@staticmethod
+	def isTie(state):
+		if isinstance(state, MockUpTieGameState):
+			return True
+		else:
+			return False
+
 class MockUpFinalGameState(GameState):
 	"""Fake final (no tie) GameState for test purposes"""
 
 	# Special property for the mockup
 	depth = 0
 
-	def isFinal(self):
-		return True
+	# def isFinal(self):
+	# 	return True
 
-	def isTie(self):
-		return False
+	# def isTie(self):
+	# 	return False
 
 class MockUpTieGameState(GameState):
 	"""Fake tie GameState for test purposes"""
@@ -52,11 +66,11 @@ class MockUpTieGameState(GameState):
 	# Special property for the mockup
 	depth = 0
 
-	def isFinal(self):
-		return True
+	# def isFinal(self):
+	# 	return True
 
-	def isTie(self):
-		return True
+	# def isTie(self):
+	# 	return True
 
 class MockUpNonFinalGameState(GameState):
 	"""Fake non final GameState for test purposes"""
@@ -64,11 +78,11 @@ class MockUpNonFinalGameState(GameState):
 	# Special property for the mockup
 	depth = 1
 
-	def isFinal(self):
-		return False
+	# def isFinal(self):
+	# 	return False
 
-	def isTie(self):
-		return False
+	# def isTie(self):
+	# 	return False
 
 class MockUpGameViewer(GameViewer):
 	def showState(self, state):

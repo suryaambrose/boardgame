@@ -7,33 +7,45 @@ class GameController(object):
 	overwritten
 	"""
 
-	def __init__(self, game_model, game_viewer=None):
+	def __init__(self, game_model,
+		               game_state):
 		"""
 		Create GameController
 
-		@game_model  : Model handling the game behavior (GameModel)
-		@game_viewer : Class handling the game rendering (Map)
+		:param game_model: Class handling the game behavior (GameModel)
+		:param game_state: Initial state of the game (GameState)
 		"""
 		# Model creation
 		self._game_model = game_model
+		self._game_state = game_state
 
-		# View creation
-		self._game_viewer = game_viewer
 
 	def addPlayer(self, player):
 		"""
-		Add a player to the model
+		Add a player to the game
 
-		@player : New player to add
+		:param player:  New player (Player)
+		:raises:  RuntimeError if max number of player is already reached
 		"""
-		gm=self._game_model
-		gm.addPlayer(player)
+		self._game_model.addPlayer(player)
 		try:
-			if gm._state.next_player is None:
-				gm._state.next_player = gm.getNextPlayer()
+			if self._game_state.next_player is None:
+				self._game_state.next_player = self.getNextPlayer()
 		except RuntimeError, e:
 			# Minimum number of player is not reached yet
 			pass
+
+	def getNextPlayer(self, player=None):
+		"""
+		Return the player who will play after the given player. If player is
+		None, first player is returned.
+
+		:param player:  Original player (Player)
+		:return:  Next player (Player)
+
+		"""
+		return self._game_model.getNextPlayer(player)
+
 
 	def runOnce(self):
 		"""
@@ -43,18 +55,21 @@ class GameController(object):
 		"""
 		gm=self._game_model
 		while True:
-			played_move = gm._state.next_player.play(gm._state)
+			played_move = self._game_state.next_player.play(self._game_state)
 			try:
-				gm.applyMove(played_move)
+				# gm.applyMove(played_move)
+				self._game_state = self._game_model.estimateNextState(
+					                   self._game_state, played_move)
 				break
-			except RuntimeError:
+			except RuntimeError, e:
+				print e
 				print "This move is not possible"
-		if self._game_viewer is not None:
-			self._game_viewer.showState(gm._state)
+		# if self._game_viewer is not None:
+		# 	self._game_viewer.showState(gm._state)
 
 	def isGameOver(self):
 		"""
 		Return True if the game is finished
 		"""
-		return self._game_model._state.isFinal()
+		return self._game_model.isFinal(self._game_state)
 

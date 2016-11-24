@@ -7,8 +7,8 @@ from boardgame.gameconfig import GameConfig
 class GameImplementedTest(object):
 
 	def testStateNotRaising(self):
-		self.state.isFinal()
-		self.state.isTie()
+		self.model.isFinal(self.state)
+		self.model.isTie(self.state)
 		self.state.value
 
 	def testModelNotRaising(self):
@@ -22,19 +22,25 @@ class GameImplementedTest(object):
 class TicTacToeTest(GameImplementedTest, unittest.TestCase):
 
 	def setUp(self):
+		from boardgame.tictactoe.tictactoemodel import TicTacToeModel
+		game_model = TicTacToeModel
+		game_model._player_list = []
 		config = GameConfig()
 		config.hum_players=1
 		config.ai_players=1
 		self.game = TicTacToe(config)
 		self.model = self.game._game_model
-		self.state = self.model._state
+		self.state = self.game._game_state
 
 class ConnectFourTest(GameImplementedTest, unittest.TestCase):
 
 	def setUp(self):
+		from boardgame.connectfour.connectfourmodel import ConnectFourModel
+		game_model = ConnectFourModel
+		game_model._player_list = []
 		config = GameConfig()
 		config.hum_players=1
 		config.ai_players=1
 		self.game = ConnectFour(config)
 		self.model = self.game._game_model
-		self.state = self.model._state
+		self.state = self.game._game_state

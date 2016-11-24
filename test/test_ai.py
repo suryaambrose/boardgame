@@ -7,7 +7,7 @@ from mockup import MockUpNonFinalGameState, MockUpGameModel
 
 class MiniMaxTest(unittest.TestCase):
 	def setUp(self):
-		self.algo = minimax.MiniMax(MockUpGameModel)
+		self.algo = MiniMax(MockUpGameModel)
 
 	def testRun1(self):
 		state = MockUpNonFinalGameState()

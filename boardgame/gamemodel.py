@@ -2,117 +2,101 @@
 class GameState(object):
 	"""
 	Wraps a state of the game
-
-	A game state can vary a lot from a game to another, which is why
-	only two functions must be overridden `isFinal` and `isTie`, the
-	rest being left to the user's discretion.
 	"""
 	next_player = None
 
-	def isFinal(self):
-		"""
-		True if the current state finishes the game
-
-		This happens when somebody won or when there is no possible
-		move left
-		"""
-		raise NotImplementedError
-
-	def isTie(self):
-		"""
-		True if the current state finishes the game without a winner
-		"""
-		raise NotImplementedError
-
 	@property
 	def value(self):
+		"""
+		Defines the estimated value of a state
+
+		This is very useful for AI program, but is not really important for
+		human players.
+		"""
 		raise NotImplementedError
 
 class GameModel(object):
 	"""
 	Wraps the game behavior.
-
-	This class should be inherited and both method `getPossibleMoves`
-	and `estimateNextState` must be overridden.
-	It is also important to define `min_num_of_players` and `max_num_of_players`
-	which are class variables.
 	"""
 
-	def __init__(self, state, players_min_num, players_max_num):
-		"""
-		Create GameModel
+	min_num_of_players = 1
+	max_num_of_players = 0
+	_player_list = []
 
-		@state           : Initial state (GameState)
-		@players_min_num : Minimum number of player required (int)
-		@players_max_num : Maximum number of player required (int)
+	@classmethod
+	def addPlayer(cls, player):
 		"""
-		self._state = state
-		self._player_list = []
-		self.min_num_of_players = players_min_num
-		self.max_num_of_players = players_max_num
+		Add a player to the game
+
+		:param player:  New player (Player)
+		:raises:  RuntimeError if max number of player is already reached
+		"""
+		if len(cls._player_list)>=cls.max_num_of_players:
+			raise RuntimeError("Maximum number of player is reached")
+		cls._player_list.append(player)
+
+	@classmethod
+	def getNextPlayer(cls, player=None):
+		"""
+		Return the player who will play after the given player. If player is
+		None, first player is returned.
+
+		:param player:  Original player (Player)
+		:return:  Next player (Player)
+
+		"""
+		if len(cls._player_list)<cls.min_num_of_players:
+			raise RuntimeError("Minimum number of player is not reached")
+		if player is None:
+			return cls._player_list[0]
+		next_player_index = (cls._player_list.index(player) + 1) %len(cls._player_list)
+		return cls._player_list[next_player_index]
 
 	@staticmethod
 	def getPossibleMoves(state):
 		"""
 		Return the list of move that can be played from the given state
 
-		@state  :  Game state to evaluate (GameState)
-		@return :  List of possible moves (list)
+		:param state:  Game state to evaluate (GameState)
+		:return:  List of possible moves (list)
+		:raises NotImplementedError: if child does not override this function
 		"""
 		raise NotImplementedError()
 
-	def estimateNextState(self, state, move):
+	@staticmethod
+	def estimateNextState(state, move):
 		"""
 		Estimate what the game state will be after the given move
 		is applied to the given state.
 
-		@state  :  Original game state (GameState)
-		@move   :  Move to play
-		@return :  New state (GameState)
-		@raises :  RuntimeError if move is not possible
-
-		..warning::
-			This function does not change the actual state of the game.
-			Its only purpose is to estimate what the game board would be if the
-			move was applied, not to actually change it.
+		:param state:  Current game state (GameState)
+		:param move:  Move to play
+		:return:  New state (GameState)
+		:raises  RuntimeError: if move is not possible
+		:raises NotImplementedError: if child does not override this function
 		"""
 		raise NotImplementedError()
 
-	def applyMove(self, move):
+	@staticmethod
+	def isFinal(state):
 		"""
-		Apply the given move to the current state
+		True if the given state finishes the game
 
-		@move   :  Move to play
-		@raises :  RuntimeError if move is not possible
+		This happens when somebody won or when there is no possible
+		move left
 
-		..note::
-			This function changes the actual state of the game.
+		:param state:  Current game state (GameState)
+		:raises NotImplementedError: if child does not override this function
 		"""
-		self._state = self.estimateNextState(self._state, move)
+		raise NotImplementedError
 
-	def addPlayer(self, player):
+	@staticmethod
+	def isTie(state):
 		"""
-		Add a player to the game
+		True if the given state finishes the game without a winner
 
-		@player  :  New player (Player)
-		@raises  :  RuntimeError if max number of player is already reached
+		:param state:  Game state to evaluate (GameState)
+		:raises NotImplementedError: if child does not override this function
 		"""
-		if len(self._player_list)>=self.max_num_of_players:
-			raise RuntimeError("Maximum number of player is reached")
-		self._player_list.append(player)
-
-	def getNextPlayer(self, player=None):
-		"""
-		Return the player who will play after the given player. If player is
-		None, first player is returned.
-
-		@player  :  Original player (Player)
-		@return  :  Next player (Player)
-
-		"""
-		if len(self._player_list)<self.min_num_of_players:
-			raise RuntimeError("Minimum number of player is not reached")
-		if player is None:
-			return self._player_list[0]
-		next_player_index = (self._player_list.index(player) + 1) %len(self._player_list)
-		return self._player_list[next_player_index]
+		raise NotImplementedError

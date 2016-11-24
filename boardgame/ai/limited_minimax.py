@@ -24,8 +24,8 @@ class LimitedMiniMax:
 		@state : Current state of the game
 		@depth : Number of iterations already done
 		"""
-		if state.isFinal():
-			if state.isTie():
+		if self._game.isFinal(state):
+			if self._game.isTie(state):
 				# print "Final state tie"
 				return 0
 			#TODO: replace %2 by number of players
