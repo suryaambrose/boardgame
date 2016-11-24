@@ -16,7 +16,7 @@ class MiniMax:
 		"""
 		Create MiniMax
 
-		@game  :  The model of the game played
+		:param game:  The model of the game played
 		"""
 		self._game = game
 		
@@ -26,8 +26,8 @@ class MiniMax:
 
 		This method is recursive
 
-		@state : Current state of the game
-		@depth : Number of iterations already done
+		:param state: Current state of the game
+		:param depth: Number of iterations already done
 		"""
 		if state.isFinal():
 			if state.isTie():
@@ -56,10 +56,10 @@ class MiniMax:
 		"""
 		Determine the best move to do.
 
-		@state  : Current state of the game (GameState)
-		@return : The best possible move
+		:param state: Current state of the game (GameState)
+		:return: The best possible move
 
-		..note::
+		.. note::
 			If several moves give the same winning probability, one of them is
 			chosen randomly.
 			The type of the returned move depends on the game model

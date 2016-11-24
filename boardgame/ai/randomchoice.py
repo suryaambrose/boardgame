@@ -11,7 +11,7 @@ class RandomChoice(object):
 		"""
 		Create Random
 
-		@game   :  Game model
+		:param game:  Game model
 		"""
 		self._game = game
 
