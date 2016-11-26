@@ -10,7 +10,7 @@ class TicTacToeHumanPlayer(HumanPlayer):
 		while True:
 			try:
 				played_coordinates = raw_input(
-					"Choose your play move (e.g. 1 1 for top left corner):"
+					"Choose your play move (e.g. 0 1 for top center cell):"
 					).split(" ")
 				x = int(played_coordinates[0])
 				y = int(played_coordinates[1])
