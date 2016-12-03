@@ -92,6 +92,16 @@ class GameModel(object):
 		raise NotImplementedError
 
 	@staticmethod
+	def getWinner(state):
+		"""
+		Returns the winning player, None is the game is not over or is a draw
+
+		:param state:  Current game state (GameState)
+		:raises NotImplementedError: if child does not override this function
+		"""
+		raise NotImplementedError
+
+	@staticmethod
 	def isTie(state):
 		"""
 		True if the given state finishes the game without a winner

@@ -18,6 +18,11 @@ def gameRunner(args):
 	game = args.game_maker(config)
 	while(not game.isGameOver()):
 		game.runOnce()
+	winner = game.getWinner()
+	if winner is None:
+		print "It's a draw"
+	else:
+		print "%s wins !"%winner.name
 
 def parser():
 	parser = argparse.ArgumentParser(description=DESCRIPTION)

@@ -64,8 +64,6 @@ class GameController(object):
 			except RuntimeError, e:
 				print e
 				print "This move is not possible"
-		# if self._game_viewer is not None:
-		# 	self._game_viewer.showState(gm._state)
 
 	def isGameOver(self):
 		"""
@@ -73,3 +71,11 @@ class GameController(object):
 		"""
 		return self._game_model.isFinal(self._game_state)
 
+	def getWinner(self):
+		"""
+		Returns the winning player if there is one
+		"""
+		if not self.isGameOver():
+			return None
+		else:
+			return self._game_model.getWinner(self._game_state)

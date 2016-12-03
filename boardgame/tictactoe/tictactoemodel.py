@@ -121,6 +121,30 @@ class TicTacToeModel(GameModel):
 		return True
 
 	@staticmethod
+	def getWinner(state):
+		for i in range(3):
+			if state._board[i][0] == state._board[i][1]\
+			   and state._board[i][0] == state._board[i][2]\
+			   and state._board[i][0] is not None:
+				return state._board[i][0]
+		for j in range(3):
+			if state._board[0][j] == state._board[1][j]\
+			   and state._board[0][j] == state._board[2][j]\
+			   and state._board[0][j] is not None:
+				return state._board[0][j]
+		if state._board[0][0] == state._board[1][1]\
+		   and state._board[0][0] == state._board[2][2]\
+		   and state._board[0][0] is not None:
+			return state._board[0][0]
+
+		if state._board[2][0] == state._board[1][1]\
+		   and state._board[2][0] == state._board[0][2]\
+		   and state._board[2][0] is not None:
+			return state._board[2][0]
+
+		return None
+
+	@staticmethod
 	def isTie(state):
 		for i in range(3):
 			for j in range(3):

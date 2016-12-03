@@ -190,6 +190,40 @@ class ConnectFourModel(GameModel):
 		return is_tie
 
 	@staticmethod
+	def getWinner(state):
+		for j in range(7):
+			for i in range(6):
+				if state._board[i][j] is None:
+					continue
+
+				if i+3<6:
+					for k in range(1,4):
+						if state._board[i+k][j]!=state._board[i][j]:
+							break
+					else:
+						return state._board[i][j]
+				if j+3<7:
+					for k in range(1,4):
+						if state._board[i][j+k]!=state._board[i][j]:
+							break
+					else:
+						return state._board[i][j]
+				if i+3<6 and j+3<7:
+					for k in range(1,4):
+						if state._board[i+k][j+k]!=state._board[i][j]:
+							break
+					else:
+						return state._board[i][j]
+				if i+3<6 and j-3>=0:
+					for k in range(1,4):
+						if state._board[i+k][j-k]!=state._board[i][j]:
+							break
+					else:
+						return state._board[i][j]
+
+		return None
+
+	@staticmethod
 	def isTie(state):
 		for j in range(7):
 			for i in range(6):
