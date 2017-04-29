@@ -3,7 +3,7 @@ TicTacToe or Connect 4. It is meant to be played by humans or by programs.
 
 
 This page only describes basic usage of this package. For a more advanced usage,
-(e.g. to have a program play a game, or to add a new game) check this page.
+(e.g. to have a program play a game, or to add a new game) it will be added later.
 
 
 How to install it
@@ -21,10 +21,6 @@ boardgame command
 
 ``boardgame tictactoe -h``
 
-You will have to specify the players taking part of the game:
-
-``boardgame tictactoe --human-players 1 --ai-players 1``
-
-This allows you to play against someone.
+By default, the games oppose a human and an AI, but you can change that like this:
 
 ``boardgame tictactoe --human-players 2``
