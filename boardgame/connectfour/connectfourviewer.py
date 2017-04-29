@@ -21,3 +21,13 @@ class ConnectFourViewer(GameViewer):
 				else:
 					sys.stdout.write(" ")
 			sys.stdout.write("|\n")
+
+	def waitForAMove(self):
+		while True:
+			try:
+				played_column = raw_input("Type where you wish to play (e.g. 1 for column 1):")
+				c = int(played_column)
+				break
+			except Exception, e:
+				print e
+		return c

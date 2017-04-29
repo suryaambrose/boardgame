@@ -21,3 +21,16 @@ class TicTacToeViewer(GameViewer):
 				else:
 					sys.stdout.write(" ")
 			sys.stdout.write("|\n")
+
+	def waitForAMove(self):
+		while True:
+			try:
+				played_coordinates = raw_input(
+					"Choose your play move (e.g. 0 1 for top center cell):"
+					).split(" ")
+				x = int(played_coordinates[0])
+				y = int(played_coordinates[1])
+				break
+			except Exception, e:
+				print e
+		return [x,y]

@@ -1,4 +1,3 @@
-
 class Player(object):
 	"""
 	Base class for players
@@ -8,7 +7,7 @@ class Player(object):
 		:param name: player's name (str)
 		"""
 		self.name = name
-		
+
 	def play(self, state):
 		"""
 		Human player is asked to choose a move, AI player
@@ -33,7 +32,7 @@ class HumanPlayer(Player):
 
 	def play(self, state):
 		self.game_viewer.showState(state)
-
+		return self.game_viewer.waitForAMove()
 
 class AiPlayer(Player):
 	"""
