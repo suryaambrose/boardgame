@@ -1,9 +1,9 @@
 import argparse
 
-from boardgame import DESCRIPTION
 from boardgame.gameconfig import GameConfig
 
 SUBCOMMANDS = []
+DESCRIPTION = """Play small boardgames like TicTacToe."""
 
 import connectfour_commands
 SUBCOMMANDS.append([connectfour_commands, "connectfour"])
